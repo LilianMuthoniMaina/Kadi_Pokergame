@@ -1,18 +1,29 @@
 from Deck import Deck
-from Player import player
+from Player import Player
 
 class Game():
     def __init__(self):
-        self.main_pot=0
-        self.current_pot=0
+        self.pot=0
         deck=Deck()
         deck.shuffle()
         human_cards=[deck.give_card(), deck.give_card()]
         pc_cards=[deck.give_card(), deck.give_card()]
-        self.human=player(type = "human", cards=human_cards, total_amount_bet=0, name="Booboo Kitty", amount=5000)
-        self.pc= player(type="pc", cards=pc_cards, total_amount_bet=0, name="PC", amount=4500)
+        self.human=Player(player_type = "human", cards=human_cards, total_amount_bet=0, name="Booboo Kitty", amount=5000)
+        self.pc= Player(player_type="pc", cards=pc_cards, total_amount_bet=0, name="PC", amount=4500)
 
+        self._turn=self.human
         self.deck =deck
+
+    @property
+    def turn (self):
+        return self._turn
+
+    @turn.setter
+    def turn(self, player):
+        if isinstance(player,Player):
+            self._turn=player
+        else:
+            raise ValueError("The turn must be assigned to player object")
 
 
 if __name__=="__main__":
