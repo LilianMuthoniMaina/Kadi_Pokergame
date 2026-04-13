@@ -8,8 +8,8 @@ class Game():
         deck.shuffle()
         human_cards=[deck.give_card(), deck.give_card()]
         pc_cards=[deck.give_card(), deck.give_card()]
-        self.human=Player(player_type = "human", cards=human_cards, total_amount_bet=0, name="Booboo Kitty", amount=5000)
-        self.pc= Player(player_type="pc", cards=pc_cards, total_amount_bet=0, name="PC", amount=4500)
+        self.human=Player(player_type = "human", cards=human_cards, bet=0, name="Booboo Kitty", amount=5000)
+        self.pc= Player(player_type="pc", cards=pc_cards, bet=0, name="PC", amount=4500)
 
         self._turn=self.human
         self.deck =deck
