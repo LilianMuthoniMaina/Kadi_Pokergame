@@ -29,12 +29,11 @@ class Card():
         self.suite=suiteUpper
 
     def printCard(self):
-        print("Rank", self.rank)
-        print("Suite", self.suite)
-
+        print(f"{self.rank} {self.suite}")
+        
 
 if __name__=="__main__":
-        card1=Card(suite="Heart",rank="A")
+        card1=Card(suite="Joker",rank="A")
         card1.printCard()
 
         card2=Card(suite="Clubs",rank="5")

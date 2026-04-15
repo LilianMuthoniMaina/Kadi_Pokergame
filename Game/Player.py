@@ -19,6 +19,9 @@ class Player():
         self._bet=self._bet+amount
         self.amount=self.amount-amount
 
+    def reset_bet(self):
+        self._bet=0
+
     def place_initial_bet(self):
         while True:
             amount= input(f"Place initial bet amount. Your current amount is {self.amount}:")
@@ -30,13 +33,13 @@ class Player():
                     #self.bet=n
                     return n
 
-                print(f"Amount must range between 1 and {self.amount}")
+                print(f"Amount must range between 1 and {self.amount} :")
                 print("Try again")
             else:
-                print(f"Kindly enter amount between 1 and {self.amount}")
+                print(f"Kindly enter amount between 1 and {self.amount} :")
 
     def call_fold_raise(self, player):
-        choice=input("Press 1 to call \n Press 2 to fold \n Press 3 to raise")
+        choice=input("Press 1 to call \n Press 2 to fold \n Press 3 to raise :")
         if choice =='1':
             return self.call(player)
 
@@ -56,7 +59,7 @@ class Player():
             return True
         diff=abs(diff)
 
-        if self.amount > abs(diff):
+        if diff > self.amount:
             print("Cannot call! You do not have enough amount!")
             return "l"
         self.bet=diff
@@ -81,33 +84,62 @@ class Player():
 
 
 
-    def auto_match_or_raise(self,amount):
+    def auto_call_raise(self,player, k):
         print("PC calculating move...")
         time.sleep(3)
         to_do=random.randint(1,2)
-        raise_amount=amount+random.randint(10,250)
+        
+        print(f"Human bet amount is ", player.bet)
+        print(f"PC amount is ", self.bet)
+        diff=player.bet-self.bet
+        print("Difference is ", diff)
+
+        if diff <=0:
+            print("I call your bet.")
+            return 
+
+        if diff > self.amount:
+            print("I fold. The bet too high!")
+            return "l"
+
+        raise_amount=random.randint(1, 50)
+        raise_stake=diff+raise_amount
+        if raise_stake>self.amount or k>=3:
+            to_do=1
+
+        if to_do ==1:
+            self.bet= diff
+            print(f"Matching your action. Bet = {amount}")
+            return
+            
+
+        #self.amount=self.amount-raise_amount
+        self.bet=raise_stake
+        print("FEELING LUCKY. I raise by", raise_amount)
+        
+
+    def auto_match_or_raise(self, amount):
+        print("PC calculating move...")
+        time.sleep(3)
+        to_do=random.randint(1,2)
+        raise_amount=random.randint(1, 50)
 
         if raise_amount>self.amount:
             to_do=1
 
         if to_do ==1:
-            if self.amount>amount:
-                #self.amount-amount
-                self.bet=amount
+            if self.amount > amount:
                 print(f"Matching your action. Bet = {amount}")
-                return amount
+                return amount 
             else:
-                return "l"
-
-        #self.amount=self.amount-raise_amount
+                return "l"   
         self.bet=raise_amount
         print("FEELING LUCKY. I raise by", raise_amount)
         return raise_amount
+    
+    #def update_amount_bet(self,amount):
+        #self.total_amount_bet=self.total_amount_bet+amount
 
 
-    def update_amount_bet(self,amount):
-        self.total_amount_bet=self.total_amount_bet+amount
-
-
-    def reset_amount_bet(self):
-        self.total_amount_bet=0
+    #def reset_amount_bet(self):
+        #self.total_amount_bet=0
